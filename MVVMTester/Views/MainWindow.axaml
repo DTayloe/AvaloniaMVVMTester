@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MVVMTester.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="500"
+        x:Class="MVVMTester.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+		Icon="/Assets/avalonia-logo.ico"
+        Title="MVVMTester"
+		Width="500" Height="500"
+		RequestedThemeVariant="Dark"
+		TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+		ExtendClientAreaToDecorationsHint="True">
+	<Window.Styles>
+		<Style Selector="StackPanel.Block Border">
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Padding" Value="12"/>
+			<Setter Property="Background" Value="Black"/>
+			<Setter Property="CornerRadius" Value="12"/>
+			<Style Selector="^ StackPanel">
+				<Style Selector="^ Button">
+					<Setter Property="CornerRadius" Value="12"/>
+				</Style>
+				<Style Selector="^ TextBlock">
+					<Setter Property="Padding" Value="12"/>
+					<Setter Property="FontSize" Value="12"/>
+					<Setter Property="TextWrapping" Value="Wrap"/>
+					<!--<Setter Property="FontWeight" Value="Bold"/>-->
+				</Style>
+			</Style>
+		</Style>
+	</Window.Styles>
+	<Panel>
+		<Border BorderBrush="Red" BorderThickness="1">
+			<ExperimentalAcrylicBorder>
+				<ExperimentalAcrylicBorder.Material>
+					<ExperimentalAcrylicMaterial
+						BackgroundSource="Digger"
+						TintColor="Black"
+						TintOpacity="1"
+						MaterialOpacity="0.75" />
+				</ExperimentalAcrylicBorder.Material>
+				<Border Margin="0 29 0 0">
+					<!--The overall red border takes a pixel away from the normally 30 px tall windows bar-->
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto"></RowDefinition>
+							<RowDefinition Height="*"></RowDefinition>
+						</Grid.RowDefinitions>
+						<Rectangle Grid.Row="0" VerticalAlignment="Top" Height="1" Fill="Red"></Rectangle>
+						<Grid Grid.Row="1">
+							<TabControl SelectedIndex="2">
+								<TabItem Header="Events">
+									<ScrollViewer>
+										<StackPanel Classes="Block">
+
+											<TextBlock>Event Handling</TextBlock>
+											<Border>
+												<StackPanel>
+													<Button Content="New Window (Click Event)" Click="CreateWindow_ClickEvent"/>
+													<TextBlock>
+														Basic event handling (registered in the code behind file). <LineBreak></LineBreak>Interestingly this one spawns buttons that are clickable in the duplicated window, and the binding way does not.
+													</TextBlock>
+												</StackPanel>
+											</Border>
+											<Border>
+												<StackPanel>
+													<Button Content="Close All (Click Event)" Click="CloseAllWindows_ClickEvent"/>
+													<TextBlock>Closes all windows opened/tracked by Command Binding button</TextBlock>
+												</StackPanel>
+											</Border>
+
+											<TextBlock>Command Binding</TextBlock>
+											<Border>
+												<StackPanel>
+													<Button Content="New Window (Command Binding)" Command="{Binding CreateWindow_CommandBinding}"/>
+													<TextBlock>Command pattern (registered in the ViewModel)</TextBlock>
+												</StackPanel>
+											</Border>
+											<Border>
+												<StackPanel>
+													<Button Content="Close All (Command Binding)" Command="{Binding CloseAllWindows_CommandBinding}"/>
+													<TextBlock>Closes all windows opened/tracked by Command Binding button</TextBlock>
+												</StackPanel>
+											</Border>
+										</StackPanel>
+									</ScrollViewer>
+								</TabItem>
+								<TabItem Header="Grid">
+									<Grid Background="Aqua">
+										<Grid.RowDefinitions>
+											<RowDefinition Height="*"></RowDefinition>
+											<RowDefinition Height="*"></RowDefinition>
+										</Grid.RowDefinitions>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+
+										<Rectangle Grid.Row="0" Grid.ColumnSpan="3" Fill="Purple"/>
+										<Rectangle Grid.Row="1" Grid.Column="0" Fill="Red"/>
+										<Rectangle Grid.Row="1" Grid.Column="1" Fill="Green"/>
+										<Rectangle Grid.Row="1" Grid.Column="2" Fill="Blue"/>
+									</Grid>
+								</TabItem>
+								<TabItem Header="ListBox">
+									<Grid>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="auto"></RowDefinition>
+											<RowDefinition Height="*"></RowDefinition>
+										</Grid.RowDefinitions>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="auto" MinWidth="100"></ColumnDefinition>
+											<ColumnDefinition Width="auto"></ColumnDefinition>
+											<ColumnDefinition Width="*"></ColumnDefinition>
+										</Grid.ColumnDefinitions>
+
+										<ListBox x:Name="testListBox" Grid.RowSpan="2" Grid.Column="0">
+											<ListBoxItem>One</ListBoxItem>
+											<ListBoxItem>Two</ListBoxItem>
+											<ListBoxItem>Three</ListBoxItem>
+										</ListBox>
+										<GridSplitter Grid.RowSpan="2" Grid.Column="1" Width="5" IsEnabled="True" ResizeDirection="Columns" ></GridSplitter>
+										<StackPanel Grid.Column="2">
+											<Label Target="Goof">First</Label>
+											<TextBox Name="Goof"></TextBox>
+											<Label Target="hoot">Last</Label>
+											<TextBox Name="hoot"></TextBox>
+										</StackPanel>
+										<Canvas Grid.Row="1" Grid.Column="3" Background="Green"/>
+									</Grid>
+								</TabItem>
+							</TabControl>
+						</Grid>
+					</Grid>
+				</Border>
+			</ExperimentalAcrylicBorder>
+		</Border>
+	</Panel>
+</Window>
